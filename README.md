@@ -1,6 +1,6 @@
 # Flood It!
 
-**Flood It!** is an simple Android puzzle game.
+**Flood It!** is a simple puzzle game for Android devices.
 
 You have to flood the whole board with one color while taking as few steps as possible.
 Start from the top left corner and progress by selecting one of the available colors.
