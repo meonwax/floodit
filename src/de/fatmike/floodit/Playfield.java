@@ -32,7 +32,7 @@ public class Playfield extends View {
 		for( int row = 0; row < grid.length; row++ ) {
 
 			for( int col = 0; col < MainActivity.GRID_SIZE; col++ ) {
-				grid[ row ][ col ] = new Square( MainActivity.getRandomColor() );
+				grid[ row ][ col ] = new Square( MainActivity.getSquareSize( this ), MainActivity.getRandomColor() );
 			}
 		}
 	}
@@ -50,12 +50,12 @@ public class Playfield extends View {
 
 				row[ col ].draw( canvas, x, y );
 
-				x += MainActivity.SQUARE_SIZE;
+				x += MainActivity.getSquareSize( this );
 			}
 
 			x = 0;
 
-			y += MainActivity.SQUARE_SIZE;
+			y += MainActivity.getSquareSize( this );
 		}
 	}
 

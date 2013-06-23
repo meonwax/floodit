@@ -5,13 +5,14 @@ import java.util.Random;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
 	/*
 	 * Game config constants
 	 */
-	public final static int SQUARE_SIZE = 30;
+//	public final static int SQUARE_SIZE = 30;
 
 	public final static int GRID_SIZE = 14;
 
@@ -21,6 +22,10 @@ public class MainActivity extends Activity {
 	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.main );
+	}
+
+	public static float getSquareSize( View view ) {
+		return view.getResources().getDisplayMetrics().widthPixels / Float.valueOf( GRID_SIZE );
 	}
 
 	/**
