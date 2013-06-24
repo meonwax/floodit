@@ -10,15 +10,15 @@ public class Playfield extends View {
 	private final Square[][] grid = new Square[ MainActivity.GRID_SIZE ][ MainActivity.GRID_SIZE ];
 	private float squareSize = 0f;
 
-	protected Playfield( final Context context ) {
+	public Playfield( final Context context ) {
 		super( context );
 	}
 
-	protected Playfield( final Context context, final AttributeSet attrs ) {
+	public Playfield( final Context context, final AttributeSet attrs ) {
 		super( context, attrs );
 	}
 
-	protected Playfield( final Context context, final AttributeSet attrs, final int defStyle ) {
+	public Playfield( final Context context, final AttributeSet attrs, final int defStyle ) {
 		super( context, attrs, defStyle );
 	}
 
@@ -97,23 +97,23 @@ public class Playfield extends View {
 	/**
 	 * Recursively fill all adjacent squares of the same color
 	 */
-	protected void fill( final int row, final int col, final int newColor ) {
+	protected void fill( final int row, final int col, final int referenceColor, final int newColor ) {
 
-		if( grid[ row ][ col ].getColor() == getReferenceColor() ) {
+		if( grid[ row ][ col ].getColor() == referenceColor ) {
 
 			grid[ row ][ col ].setColor( newColor );
 
 			if( row < MainActivity.GRID_SIZE - 1 ) {
-				fill( row + 1, col, newColor );
+				fill( row + 1, col, referenceColor, newColor );
 			}
 			if( col < MainActivity.GRID_SIZE - 1 ) {
-				fill( row, col + 1, newColor );
+				fill( row, col + 1, referenceColor, newColor );
 			}
 			if( row > 0 ) {
-				fill( row - 1, col, newColor );
+				fill( row - 1, col, referenceColor, newColor );
 			}
 			if( col > 0 ) {
-				fill( row, col - 1, newColor );
+				fill( row, col - 1, referenceColor, newColor );
 			}
 		}
 	}

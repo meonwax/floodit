@@ -7,7 +7,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -16,6 +18,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public final static int[] COLORS = new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f };
 
 	private Playfield playfield;
+	private final Button[] colorButtons = new Button[ COLORS.length ];
 	private int turnCount = 0;
 
 	@Override
@@ -28,6 +31,23 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		final Button newGameButton = (Button)findViewById( R.id.new_game );
 		newGameButton.setOnClickListener( this );
+
+		// Create the color buttons
+		for( int i = 0; i < COLORS.length; i++ ) {
+
+			final int color = COLORS[ i ];
+
+			final Button colorButton = new Button( this );
+
+			colorButton.setBackgroundColor( color );
+			colorButton.setLayoutParams( new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f ) );
+			colorButton.setOnClickListener( this );
+
+			final LinearLayout buttonBox = (LinearLayout)findViewById( R.id.buttonBox );
+			buttonBox.addView( colorButton );
+
+			colorButtons[ i ] = colorButton;
+		}
 	}
 
 	/**
@@ -43,7 +63,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		if( referenceColor != newColor ) {
 
-			playfield.fill( 0, 0, newColor );
+			playfield.fill( 0, 0, referenceColor, newColor );
 
 			turnCount++;
 		}
@@ -54,12 +74,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		// ...and display a message if game was completed
 		if( completed ) {
 
-			// repaint();
-
 			Toast.makeText( this, "Congratulations. You needed " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
 
 			// Restart the game
-			restartGame();
+//			restartGame();
 		}
 	}
 
@@ -69,22 +87,22 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public void onClick( final View v ) {
+	public void onClick( final View view ) {
 
-		if( v.getId() == R.id.new_game ) {
+		if( view.getId() == R.id.new_game ) {
 			restartGame();
 		}
-		//		else {
-		//
-		//			for( int i = 0; i < colorButtons.length; i++ ) {
-		//
-		//				// Determine the clicked color and start to process with it
-		//				if( source == colorButtons[ i ] ) {
-		//					process( COLORS[ i ] );
-		//					break;
-		//				}
-		//			}
-		//		}
+		else {
+
+			for( int i = 0; i < colorButtons.length; i++ ) {
+
+				// Determine the clicked color and start to process with it
+				if( view == colorButtons[ i ] ) {
+					process( COLORS[ i ] );
+					break;
+				}
+			}
+		}
 
 		playfield.invalidate();
 	}
