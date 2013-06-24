@@ -1,4 +1,4 @@
-package de.fatmike.floodit;
+package de.meonwax.floodit;
 
 import java.util.Random;
 

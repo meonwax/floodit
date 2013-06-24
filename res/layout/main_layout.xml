@@ -39,7 +39,7 @@
             android:gravity="right" />
     </LinearLayout>
 
-    <de.fatmike.floodit.Playfield
+    <de.meonwax.floodit.Playfield
         android:id="@+id/playfield"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

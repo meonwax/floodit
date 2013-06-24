@@ -1,4 +1,4 @@
-package de.fatmike.floodit;
+package de.meonwax.floodit;
 
 import android.content.Context;
 import android.graphics.Canvas;
