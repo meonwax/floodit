@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onCreate( final Bundle savedInstanceState ) {
 
 		super.onCreate( savedInstanceState );
-		setContentView( R.layout.main );
+		setContentView( R.layout.main_layout );
 
 		playfield = (Playfield)findViewById( R.id.playfield );
 
@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu( Menu menu ) {
 
-		getMenuInflater().inflate( R.menu.main, menu );
+		getMenuInflater().inflate( R.menu.main_menu, menu );
 
 		return true;
 	}
