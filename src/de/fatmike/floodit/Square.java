@@ -9,7 +9,7 @@ public class Square {
 	float size;
 	Paint paint = new Paint();
 
-	public Square( float size, int color ) {
+	public Square( final float size, final int color ) {
 
 		this.size = size;
 
@@ -17,7 +17,7 @@ public class Square {
 		paint.setStyle( Style.FILL_AND_STROKE );
 	}
 
-	public void draw( Canvas canvas, int x, int y ) {
+	public void draw( final Canvas canvas, final float x, final float y ) {
 		canvas.drawRect( x, y, x + size, y + size, paint );
 	}
 }

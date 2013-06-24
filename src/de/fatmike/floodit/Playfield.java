@@ -11,19 +11,18 @@ public class Playfield extends View {
 
 	int turnCount = 0;
 
+	float squareSize = 0f;
+
 	public Playfield( final Context context ) {
 		super( context );
-		init();
 	}
 
 	public Playfield( final Context context, final AttributeSet attrs ) {
 		super( context, attrs );
-		init();
 	}
 
 	public Playfield( final Context context, final AttributeSet attrs, final int defStyle ) {
 		super( context, attrs, defStyle );
-		init();
 	}
 
 	public void init() {
@@ -32,7 +31,7 @@ public class Playfield extends View {
 		for( int row = 0; row < grid.length; row++ ) {
 
 			for( int col = 0; col < MainActivity.GRID_SIZE; col++ ) {
-				grid[ row ][ col ] = new Square( MainActivity.getSquareSize( this ), MainActivity.getRandomColor() );
+				grid[ row ][ col ] = new Square( squareSize, MainActivity.getRandomColor() );
 			}
 		}
 	}
@@ -41,24 +40,33 @@ public class Playfield extends View {
 	protected void onDraw( final Canvas canvas ) {
 
 		// The coordinates of each square
-		int x = 0;
-		int y = 0;
+		float x = 0;
+		float y = 0;
 
-		for( Square[] row : grid ) {
+		for( final Square[] row : grid ) {
 
 			for( int col = 0; col < MainActivity.GRID_SIZE; col++ ) {
 
 				row[ col ].draw( canvas, x, y );
 
-				x += MainActivity.getSquareSize( this );
+				x += squareSize;
 			}
 
 			x = 0;
 
-			y += MainActivity.getSquareSize( this );
+			y += squareSize;
 		}
 	}
 
+	@Override
+	protected void onLayout( final boolean changed, final int l, final int t, final int r, final int b ) {
+
+		super.onLayout( changed, l, t, r, b );
+
+		squareSize = ( r - l ) / Float.valueOf( MainActivity.GRID_SIZE );
+
+		init();
+	}
 
 //	/**
 //	 * Process one game turn
