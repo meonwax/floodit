@@ -76,7 +76,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			Toast.makeText( this, "Congratulations. You needed " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
 
-			// Restart the game
 //			restartGame();
 		}
 	}

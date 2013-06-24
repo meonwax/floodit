@@ -10,16 +10,8 @@ public class Playfield extends View {
 	private final Square[][] grid = new Square[ MainActivity.GRID_SIZE ][ MainActivity.GRID_SIZE ];
 	private float squareSize = 0f;
 
-	public Playfield( final Context context ) {
-		super( context );
-	}
-
 	public Playfield( final Context context, final AttributeSet attrs ) {
 		super( context, attrs );
-	}
-
-	public Playfield( final Context context, final AttributeSet attrs, final int defStyle ) {
-		super( context, attrs, defStyle );
 	}
 
 	protected void init() {
@@ -117,9 +109,4 @@ public class Playfield extends View {
 			}
 		}
 	}
-
-//	@Override
-//	public Dimension getPreferredSize() {
-//		return new Dimension( FloodIt.SQUARE_SIZE * FloodIt.GRID_SIZE, FloodIt.SQUARE_SIZE * FloodIt.GRID_SIZE );
-//	}
 }

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Flood It!</string>
     <string name="turn">Turn</string>
     <string name="time">Time</string>
     <string name="new_game">New game</string>
+
 </resources>
