@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		return COLORS[ new Random().nextInt( COLORS.length ) ];
 	}
 
-	public void process( final int newColor ) {
+	private void process( final int newColor ) {
 
 		final int referenceColor = playfield.getReferenceColor();
 
@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		//
 		//				// Determine the clicked color and start to process with it
 		//				if( source == colorButtons[ i ] ) {
-		//					playfield.process( COLORS[ i ] );
+		//					process( COLORS[ i ] );
 		//					break;
 		//				}
 		//			}
