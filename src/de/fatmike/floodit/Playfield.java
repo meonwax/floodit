@@ -68,6 +68,13 @@ public class Playfield extends View {
 		init();
 	}
 
+	@Override
+	protected void onMeasure( final int widthMeasureSpec, final int heightMeasureSpec ) {
+
+		// Set height equal to width
+		super.onMeasure( widthMeasureSpec, widthMeasureSpec );
+	}
+
 //	/**
 //	 * Process one game turn
 //	 */
