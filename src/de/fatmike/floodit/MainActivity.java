@@ -5,10 +5,12 @@ import java.util.Random;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -21,6 +23,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private final Button[] colorButtons = new Button[ COLORS.length ];
 	private int turnCount = 0;
 
+	private Chronometer chronometer;
+
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 
@@ -28,6 +32,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView( R.layout.main );
 
 		playfield = (Playfield)findViewById( R.id.playfield );
+
+		chronometer = (Chronometer)findViewById( R.id.chronometer );
 
 		final Button newGameButton = (Button)findViewById( R.id.new_game );
 		newGameButton.setOnClickListener( this );
@@ -63,6 +69,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		if( referenceColor != newColor ) {
 
+			// Start timer on first turn
+			if( turnCount == 0 ) {
+				chronometer.setBase( SystemClock.elapsedRealtime() );
+				chronometer.start();
+			}
+
 			playfield.fill( 0, 0, referenceColor, newColor );
 
 			turnCount++;
@@ -74,15 +86,18 @@ public class MainActivity extends Activity implements OnClickListener {
 		// ...and display a message if game was completed
 		if( completed ) {
 
-			Toast.makeText( this, "Congratulations. You needed " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
+			chronometer.stop();
 
-//			restartGame();
+			Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
+
+			//			restartGame();
 		}
 	}
 
 	private void restartGame() {
 		playfield.init();
 		turnCount = 0;
+		chronometer.setBase( SystemClock.elapsedRealtime() );
 	}
 
 	@Override
