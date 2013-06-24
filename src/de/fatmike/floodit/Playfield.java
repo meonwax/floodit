@@ -9,8 +9,6 @@ public class Playfield extends View {
 
 	private final Square[][] grid = new Square[ MainActivity.GRID_SIZE ][ MainActivity.GRID_SIZE ];
 
-	int turnCount = 0;
-
 	float squareSize = 0f;
 
 	public Playfield( final Context context ) {
@@ -75,70 +73,52 @@ public class Playfield extends View {
 		super.onMeasure( widthMeasureSpec, widthMeasureSpec );
 	}
 
-//	/**
-//	 * Process one game turn
-//	 */
-//	public void process( Color newColor ) {
-//
-//		Color referenceColor = grid[ 0 ][ 0 ].color;
-//
-//		if( referenceColor != newColor ) {
-//
-//			fill( 0, 0, referenceColor, newColor );
-//
-//			turnCount++;
-//		}
-//
-//		// Check if full grid is filled...
-//		boolean completed = true;
-//		TEST: for( int row = 0; row < grid.length; row++ ) {
-//
-//			for( int col = 0; col < FloodIt.GRID_SIZE; col++ ) {
-//
-//				if( grid[ row ][ col ].color != grid[ 0 ][ 0 ].color ) {
-//
-//					completed = false;
-//					break TEST;
-//				}
-//			}
-//		}
-//
-//		// ...and display a message if game was completed
-//		if( completed ) {
-//
-//			repaint();
-//
-//			JOptionPane.showMessageDialog( this, "Congratulations. You needed " + turnCount + " turns.", "Completed", JOptionPane.PLAIN_MESSAGE );
-//
-//			// Restart the game
-//			init();
-//		}
-//	}
-//
-//	/**
-//	 * Recursively fill all adjacent squares of the same color
-//	 */
-//	private void fill( int row, int col, Color referenceColor, Color newColor ) {
-//
-//		if( grid[ row ][ col ].color == referenceColor ) {
-//
-//			grid[ row ][ col ].color = newColor;
-//
-//			if( row < FloodIt.GRID_SIZE - 1 ) {
-//				fill( row + 1, col, referenceColor, newColor );
-//			}
-//			if( col < FloodIt.GRID_SIZE - 1 ) {
-//				fill( row, col + 1, referenceColor, newColor );
-//			}
-//			if( row > 0 ) {
-//				fill( row - 1, col, referenceColor, newColor );
-//			}
-//			if( col > 0 ) {
-//				fill( row, col - 1, referenceColor, newColor );
-//			}
-//		}
-//	}
-//
+	protected int getReferenceColor() {
+		return grid[ 0 ][ 0 ].getColor();
+	}
+
+	protected boolean isFilled() {
+
+		boolean filled = true;
+		TEST: for( int row = 0; row < grid.length; row++ ) {
+
+			for( int col = 0; col < MainActivity.GRID_SIZE; col++ ) {
+
+				if( grid[ row ][ col ].getColor() != grid[ 0 ][ 0 ].getColor() ) {
+
+					filled = false;
+					break TEST;
+				}
+			}
+		}
+
+		return filled;
+	}
+
+	/**
+	 * Recursively fill all adjacent squares of the same color
+	 */
+	protected void fill( final int row, final int col, final int newColor ) {
+
+		if( grid[ row ][ col ].getColor() == getReferenceColor() ) {
+
+			grid[ row ][ col ].setColor( newColor );
+
+			if( row < MainActivity.GRID_SIZE - 1 ) {
+				fill( row + 1, col, newColor );
+			}
+			if( col < MainActivity.GRID_SIZE - 1 ) {
+				fill( row, col + 1, newColor );
+			}
+			if( row > 0 ) {
+				fill( row - 1, col, newColor );
+			}
+			if( col > 0 ) {
+				fill( row, col - 1, newColor );
+			}
+		}
+	}
+
 //	@Override
 //	public Dimension getPreferredSize() {
 //		return new Dimension( FloodIt.SQUARE_SIZE * FloodIt.GRID_SIZE, FloodIt.SQUARE_SIZE * FloodIt.GRID_SIZE );
