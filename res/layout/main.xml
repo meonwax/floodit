@@ -38,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right" />
-        
     </LinearLayout>
 
     <de.fatmike.floodit.Playfield
@@ -53,12 +52,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:orientation="horizontal" />
-
-    <Button
-        android:id="@+id/new_game"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/new_game" />
 
 </LinearLayout>

@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -34,9 +36,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		playfield = (Playfield)findViewById( R.id.playfield );
 
 		chronometer = (Chronometer)findViewById( R.id.chronometer );
-
-		final Button newGameButton = (Button)findViewById( R.id.new_game );
-		newGameButton.setOnClickListener( this );
 
 		// Create the color buttons
 		for( int i = 0; i < COLORS.length; i++ ) {
@@ -90,31 +89,50 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
 
-			//			restartGame();
+			// restartGame();
 		}
 	}
 
 	private void restartGame() {
+
 		playfield.init();
+		playfield.invalidate();
+
 		turnCount = 0;
+
+		chronometer.stop();
 		chronometer.setBase( SystemClock.elapsedRealtime() );
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu( Menu menu ) {
+
+		getMenuInflater().inflate( R.menu.main, menu );
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected( MenuItem item ) {
+
+		if( item.getItemId() == R.id.menu_new_game ) {
+
+			restartGame();
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onClick( final View view ) {
 
-		if( view.getId() == R.id.new_game ) {
-			restartGame();
-		}
-		else {
+		for( int i = 0; i < colorButtons.length; i++ ) {
 
-			for( int i = 0; i < colorButtons.length; i++ ) {
-
-				// Determine the clicked color and start to process with it
-				if( view == colorButtons[ i ] ) {
-					process( COLORS[ i ] );
-					break;
-				}
+			// Determine the clicked color and start to process with it
+			if( view == colorButtons[ i ] ) {
+				process( COLORS[ i ] );
+				break;
 			}
 		}
 
