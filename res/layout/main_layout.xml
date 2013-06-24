@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -44,13 +43,13 @@
         android:id="@+id/playfield"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:id="@+id/buttonBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal" />
 
 </LinearLayout>
