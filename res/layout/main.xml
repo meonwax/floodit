@@ -2,19 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_margin="10dp"
     android:orientation="vertical" >
 
-    <!-- <View -->
-    <!-- android:id="@+id/playfield" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" /> -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/turn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/turn" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/time" />
+    </LinearLayout>
 
     <de.fatmike.floodit.Playfield
         android:id="@+id/playfield"
         android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:id="@+id/buttonBox"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dip" />
-    
-    
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" />
+
+    <Button
+        android:id="@+id/new_game"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/new_game" />
 
 </LinearLayout>
