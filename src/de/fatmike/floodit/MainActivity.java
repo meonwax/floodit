@@ -4,6 +4,8 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
@@ -27,6 +29,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private Chronometer chronometer;
 
+	private SoundPool soundPool;
+	private int[] waterSounds;
+	private int failSound;
+
+	private final Random rnd = new Random();
+
 	@Override
 	public void onCreate( final Bundle savedInstanceState ) {
 
@@ -36,6 +44,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		playfield = (Playfield)findViewById( R.id.playfield );
 
 		chronometer = (Chronometer)findViewById( R.id.chronometer );
+
+		initSounds();
 
 		// Create the color buttons
 		for( int i = 0; i < COLORS.length; i++ ) {
@@ -62,11 +72,27 @@ public class MainActivity extends Activity implements OnClickListener {
 		return COLORS[ new Random().nextInt( COLORS.length ) ];
 	}
 
+	private void initSounds() {
+
+		soundPool = new SoundPool( 2, AudioManager.STREAM_MUSIC, 100 );
+		waterSounds = new int[ 4 ];
+
+		waterSounds[ 0 ] = soundPool.load( this, R.raw.water0, 1 );
+		waterSounds[ 1 ] = soundPool.load( this, R.raw.water1, 2 );
+		waterSounds[ 2 ] = soundPool.load( this, R.raw.water2, 3 );
+		waterSounds[ 3 ] = soundPool.load( this, R.raw.water3, 4 );
+
+		failSound = soundPool.load( this, R.raw.fail, 4 );
+	}
+
 	private void process( final int newColor ) {
 
 		final int referenceColor = playfield.getReferenceColor();
 
 		if( referenceColor != newColor ) {
+
+			// Play a random water sound
+			soundPool.play( waterSounds[ rnd.nextInt( 3 ) ], 1, 1, 1, 0, 1f );
 
 			// Start timer on first turn
 			if( turnCount == 0 ) {
@@ -77,20 +103,24 @@ public class MainActivity extends Activity implements OnClickListener {
 			playfield.fill( 0, 0, referenceColor, newColor );
 
 			turnCount++;
+
+			// Check if full grid is filled...
+			final boolean completed = playfield.isFilled();
+
+			// ...and display a message if game was completed
+			if( completed ) {
+
+				chronometer.stop();
+
+				Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
+
+				// restartGame();
+			}
+		}
+		else {
+			soundPool.play( failSound, 1, 1, 1, 0, 1f );
 		}
 
-		// Check if full grid is filled...
-		final boolean completed = playfield.isFilled();
-
-		// ...and display a message if game was completed
-		if( completed ) {
-
-			chronometer.stop();
-
-			Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
-
-			// restartGame();
-		}
 	}
 
 	private void restartGame() {
