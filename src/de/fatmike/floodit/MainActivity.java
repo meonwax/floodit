@@ -5,8 +5,11 @@ import java.util.Random;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener {
 
 	/*
 	 * Game config constants
@@ -19,6 +22,9 @@ public class MainActivity extends Activity {
 	public void onCreate( final Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.main );
+
+		final Button newGameButton = (Button)findViewById( R.id.new_game );
+		newGameButton.setOnClickListener( this );
 	}
 
 	/**
@@ -28,17 +34,14 @@ public class MainActivity extends Activity {
 		return COLORS[ new Random().nextInt( COLORS.length ) ];
 	}
 
-//	/**
-//	 * The button click handler
-//	 */
-//	@Override
-//	public void actionPerformed( ActionEvent e ) {
-//
-//		Object source = e.getSource();
-//
-//		if( source == newGameButton ) {
-//			playfield.init();
-//		}
+	@Override
+	public void onClick( final View v ) {
+
+		final Playfield playfield = (Playfield)findViewById( R.id.playfield );
+
+		if( v.getId() == R.id.new_game ) {
+			playfield.init();
+		}
 //		else {
 //
 //			for( int i = 0; i < colorButtons.length; i++ ) {
@@ -50,8 +53,7 @@ public class MainActivity extends Activity {
 //				}
 //			}
 //		}
-//
-//		// Just paint the grid again after setting new square colors
-//		playfield.repaint();
-//	}
+
+		playfield.invalidate();
+	}
 }
