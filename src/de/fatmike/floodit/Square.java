@@ -6,8 +6,8 @@ import android.graphics.Paint.Style;
 
 public class Square {
 
-	float size;
-	Paint paint = new Paint();
+	private final float size;
+	private final Paint paint = new Paint();
 
 	public Square( final float size, final int color ) {
 
@@ -15,6 +15,14 @@ public class Square {
 
 		paint.setColor( color );
 		paint.setStyle( Style.FILL_AND_STROKE );
+	}
+
+	protected void setColor( final int color ) {
+		paint.setColor( color );
+	}
+
+	protected int getColor() {
+		return paint.getColor();
 	}
 
 	public void draw( final Canvas canvas, final float x, final float y ) {
