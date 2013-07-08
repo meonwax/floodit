@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Flood It!</string>
-    <string name="turn">Turn:</string>
+    <string name="turn">Turns:</string>
     <string name="time">Elapsed time:</string>
     <string name="new_game">New game</string>
 

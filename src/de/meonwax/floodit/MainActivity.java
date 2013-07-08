@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -25,7 +26,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private Playfield playfield;
 	private final Button[] colorButtons = new Button[ COLORS.length ];
-	private int turnCount = 0;
+	private int turnCount;
 
 	private Chronometer chronometer;
 
@@ -44,6 +45,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		playfield = (Playfield)findViewById( R.id.playfield );
 
 		chronometer = (Chronometer)findViewById( R.id.chronometer );
+
+		resetTurn();
 
 		initSounds();
 
@@ -102,7 +105,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			playfield.fill( 0, 0, referenceColor, newColor );
 
-			turnCount++;
+			updateTurn();
 
 			// Check if full grid is filled...
 			final boolean completed = playfield.isFilled();
@@ -128,14 +131,24 @@ public class MainActivity extends Activity implements OnClickListener {
 		playfield.init();
 		playfield.invalidate();
 
-		turnCount = 0;
+		resetTurn();
 
 		chronometer.stop();
 		chronometer.setBase( SystemClock.elapsedRealtime() );
 	}
 
+	private void updateTurn() {
+		turnCount++;
+		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );;
+	}
+
+	private void resetTurn() {
+		turnCount = 0;
+		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );;
+	}
+
 	@Override
-	public boolean onCreateOptionsMenu( Menu menu ) {
+	public boolean onCreateOptionsMenu( final Menu menu ) {
 
 		getMenuInflater().inflate( R.menu.main_menu, menu );
 
@@ -143,7 +156,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( MenuItem item ) {
+	public boolean onOptionsItemSelected( final MenuItem item ) {
 
 		if( item.getItemId() == R.id.menu_new_game ) {
 
