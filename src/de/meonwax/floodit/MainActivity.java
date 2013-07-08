@@ -2,7 +2,6 @@ package de.meonwax.floodit;
 
 import java.util.Random;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
@@ -10,6 +9,7 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +19,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	public final static int GRID_SIZE = 17;
 	public final static int[] COLORS = new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f };
@@ -122,7 +121,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				chronometer.stop();
 
-				Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
+				new FinishedDialog().show( getSupportFragmentManager(), FinishedDialog.class.getName() );
+
+//				Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
 
 				// restartGame();
 			}
@@ -152,6 +153,14 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void resetTurn() {
 		turnCount = 0;
 		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );;
+	}
+
+	protected int getTurnCount() {
+		return turnCount;
+	}
+
+	protected float getElapsedTime() {
+		return ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f;
 	}
 
 	@Override
