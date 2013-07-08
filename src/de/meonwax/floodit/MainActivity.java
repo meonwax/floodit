@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
-	public final static int GRID_SIZE = 17;
+	public final static int GRID_SIZE = 3;
 	public final static int[] COLORS = new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f };
 
 	private Playfield playfield;
