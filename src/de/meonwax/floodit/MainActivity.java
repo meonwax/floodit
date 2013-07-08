@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +25,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	public final static int GRID_SIZE = 17;
 	public final static int[] COLORS = new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f };
+	public final static int ATTRACT_MODE_DELAY = 100;
 
 	private Playfield playfield;
 	private final Button[] colorButtons = new Button[ COLORS.length ];
@@ -34,6 +36,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private SoundPool soundPool;
 	private int[] waterSounds;
 	private int failSound;
+
+	private boolean inAttractMode = false;
 
 	private final Random rnd = new Random();
 
@@ -121,11 +125,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 				chronometer.stop();
 
+				activateAttractMode();
+
 				new FinishedDialog().show( getSupportFragmentManager(), FinishedDialog.class.getName() );
-
-//				Toast.makeText( this, "Congratulations. You needed " + String.format( "%.02f", ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f ) + " seconds for " + turnCount + " turns.", Toast.LENGTH_LONG ).show();
-
-				// restartGame();
 			}
 		}
 		else if( sound ) {
@@ -136,6 +138,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private void restartGame() {
 
+		stopAttractMode();
+
 		playfield.init();
 		playfield.invalidate();
 
@@ -143,6 +147,30 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 		chronometer.stop();
 		chronometer.setBase( SystemClock.elapsedRealtime() );
+	}
+
+	private void activateAttractMode() {
+
+		inAttractMode = true;
+
+		final Handler handler = new Handler();
+		handler.postDelayed( new Runnable() {
+
+			public void run() {
+
+				if( inAttractMode ) {
+
+					playfield.init();
+					playfield.invalidate();
+
+					handler.postDelayed( this, ATTRACT_MODE_DELAY );
+				}
+			}
+		}, ATTRACT_MODE_DELAY );
+	}
+
+	private void stopAttractMode() {
+		inAttractMode = false;
 	}
 
 	private void updateTurn() {
@@ -190,12 +218,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick( final View view ) {
 
-		for( int i = 0; i < colorButtons.length; i++ ) {
+		if( !inAttractMode ) {
 
-			// Determine the clicked color and start to process with it
-			if( view == colorButtons[ i ] ) {
-				process( COLORS[ i ] );
-				break;
+			for( int i = 0; i < colorButtons.length; i++ ) {
+
+				// Determine the clicked color and start to process with it
+				if( view == colorButtons[ i ] ) {
+					process( COLORS[ i ] );
+					break;
+				}
 			}
 		}
 
