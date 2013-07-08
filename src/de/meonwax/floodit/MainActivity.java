@@ -3,11 +3,13 @@ package de.meonwax.floodit;
 import java.util.Random;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,12 +92,17 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void process( final int newColor ) {
 
+		final boolean sound = PreferenceManager.getDefaultSharedPreferences( this ).getBoolean( getString( R.string.pref_sound ), true );
+
 		final int referenceColor = playfield.getReferenceColor();
 
 		if( referenceColor != newColor ) {
 
-			// Play a random water sound
-			soundPool.play( waterSounds[ rnd.nextInt( 3 ) ], 1, 1, 1, 0, 1f );
+			if( sound ) {
+
+				// Play a random water sound
+				soundPool.play( waterSounds[ rnd.nextInt( 3 ) ], 1, 1, 1, 0, 1f );
+			}
 
 			// Start timer on first turn
 			if( turnCount == 0 ) {
@@ -120,7 +127,7 @@ public class MainActivity extends Activity implements OnClickListener {
 				// restartGame();
 			}
 		}
-		else {
+		else if( sound ) {
 			soundPool.play( failSound, 1, 1, 1, 0, 1f );
 		}
 
@@ -162,6 +169,10 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			restartGame();
 			return true;
+		}
+		else if( item.getItemId() == R.id.menu_settings ) {
+
+			startActivity( new Intent( this, SettingsActivity.class ) );
 		}
 
 		return super.onOptionsItemSelected(item);
