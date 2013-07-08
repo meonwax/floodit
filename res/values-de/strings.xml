@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Flood It!</string>
+    <string name="turn">Züge:</string>
+    <string name="time">Zeit:</string>
+    <string name="new_game">Neues Spiel</string>
+    <string name="settings">Einstellungen</string>
+    <string name="sound">Sound</string>
+
+</resources>
