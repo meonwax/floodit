@@ -1,5 +1,7 @@
 package de.meonwax.floodit;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 
 import android.content.Intent;
@@ -24,11 +26,22 @@ import android.widget.TextView;
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	public final static int GRID_SIZE = 17;
-	public final static int[] COLORS = new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f };
 	public final static int ATTRACT_MODE_DELAY = 100;
 
+	// Available color palettes
+	private static List<int[]> AVAILABLE_COLORS = new LinkedList<int[]>();
+	static {
+		AVAILABLE_COLORS.add( new int[] { 0xff33b5e5, 0xffaa66cc, 0xff99cc00, 0xffffbb33, 0xffff4444, 0xff6f006f } );
+		AVAILABLE_COLORS.add( new int[] { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW, Color.MAGENTA, 0xff6f006f } );
+	}
+
+	// Actual color palette in use
+	private int[] colors;
+
 	private Playfield playfield;
-	private final Button[] colorButtons = new Button[ COLORS.length ];
+
+	private Button[] colorButtons;
+
 	private int turnCount;
 
 	private Chronometer chronometer;
@@ -48,36 +61,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		setContentView( R.layout.main_layout );
 
 		playfield = (Playfield)findViewById( R.id.playfield );
-
 		chronometer = (Chronometer)findViewById( R.id.chronometer );
 
-		resetTurn();
+		restartGame();
 
 		initSounds();
-
-		// Create the color buttons
-		for( int i = 0; i < COLORS.length; i++ ) {
-
-			final int color = COLORS[ i ];
-
-			final Button colorButton = new Button( this );
-
-			colorButton.setBackgroundColor( color );
-			colorButton.setLayoutParams( new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f ) );
-			colorButton.setOnClickListener( this );
-
-			final LinearLayout buttonBox = (LinearLayout)findViewById( R.id.buttonBox );
-			buttonBox.addView( colorButton );
-
-			colorButtons[ i ] = colorButton;
-		}
 	}
 
 	/**
 	 * Retrieve a random color out of the available colors
 	 */
-	public static int getRandomColor() {
-		return COLORS[ new Random().nextInt( COLORS.length ) ];
+	public int getRandomColor() {
+		return colors[ new Random().nextInt( colors.length ) ];
 	}
 
 	private void initSounds() {
@@ -91,6 +86,35 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		waterSounds[ 3 ] = soundPool.load( this, R.raw.water3, 4 );
 
 		failSound = soundPool.load( this, R.raw.fail, 4 );
+	}
+
+	private void initColors() {
+
+		// Determine which color palette to use
+		colors = AVAILABLE_COLORS.get( Integer.valueOf( PreferenceManager.getDefaultSharedPreferences( this ).getString( getString( R.string.pref_palette ), "0" ) ) );
+
+		// (Re)set everything
+		colorButtons = new Button[ colors.length ];
+
+		final LinearLayout buttonBox = (LinearLayout)findViewById( R.id.buttonBox );
+		buttonBox.removeAllViews();
+
+		// Create the color buttons
+		for( int i = 0; i < colors.length; i++ ) {
+
+			final int color = colors[ i ];
+
+			final Button colorButton = new Button( this );
+
+			//			colorButton.setBackground( getResources().getDrawable( R.drawable.color_buttons ) );
+			colorButton.setBackgroundColor( color );
+			colorButton.setLayoutParams( new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f ) );
+			colorButton.setOnClickListener( this );
+
+			buttonBox.addView( colorButton );
+
+			colorButtons[ i ] = colorButton;
+		}
 	}
 
 	private void process( final int newColor ) {
@@ -133,12 +157,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		else if( sound ) {
 			soundPool.play( failSound, 1, 1, 1, 0, 1f );
 		}
-
 	}
 
 	private void restartGame() {
 
 		stopAttractMode();
+
+		initColors();
 
 		playfield.init();
 		playfield.invalidate();
@@ -175,12 +200,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	private void updateTurn() {
 		turnCount++;
-		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );;
+		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );
 	}
 
 	private void resetTurn() {
 		turnCount = 0;
-		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );;
+		( (TextView)findViewById( R.id.turn ) ).setText( String.valueOf( turnCount ) );
 	}
 
 	protected int getTurnCount() {
@@ -190,6 +215,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected float getElapsedTime() {
 		return ( SystemClock.elapsedRealtime() - chronometer.getBase() ) / 1000f;
 	}
+
+
+
+	/****************************
+	 * Listener implementations
+	 ***************************/
 
 	@Override
 	public boolean onCreateOptionsMenu( final Menu menu ) {
@@ -212,7 +243,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			startActivity( new Intent( this, SettingsActivity.class ) );
 		}
 
-		return super.onOptionsItemSelected(item);
+		return super.onOptionsItemSelected( item );
 	}
 
 	@Override
@@ -224,7 +255,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 				// Determine the clicked color and start to process with it
 				if( view == colorButtons[ i ] ) {
-					process( COLORS[ i ] );
+					process( colors[ i ] );
 					break;
 				}
 			}
