@@ -13,7 +13,6 @@ public class FinishedDialog extends DialogFragment {
 		final MainActivity mainActivity = (MainActivity)getActivity();
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder( mainActivity );
-		//		builder.setMessage( "Congratulations. You needed " + String.format( "%.02f", mainActivity.getElapsedTime() ) + " seconds for " + mainActivity.getTurnCount() + " turns." );
 		builder.setMessage( String.format( getString( R.string.win ), mainActivity.getElapsedTime(), mainActivity.getTurnCount() ) );
 
 		return builder.create();
