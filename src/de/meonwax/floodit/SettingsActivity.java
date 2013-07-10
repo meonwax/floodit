@@ -5,6 +5,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
@@ -30,7 +31,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	public void onSharedPreferenceChanged( final SharedPreferences sharedPreferences, final String key ) {
 
 		if( key.equals( getString( R.string.pref_palette ) ) ) {
-			// TODO: Show toast message
-        }
+			Toast.makeText( this, getString( R.string.palette_changed ), Toast.LENGTH_LONG ).show();
+		}
 	}
 }

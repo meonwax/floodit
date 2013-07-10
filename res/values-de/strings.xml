@@ -8,6 +8,7 @@
     <string name="settings">Einstellungen</string>
     <string name="sound">Sound</string>
     <string name="palette">Farbpalette</string>
+    <string name="palette_changed">Die gewählte Farbpalette wird beim Start eines neuen Spiels aktiv.</string>
     <string name="win">"Gratuliere. Du hast %1$.2f Sekunden für %2$d Züge benötigt."</string>
     <string name="android">Android</string>
     <string name="classic">Klassisch</string>
