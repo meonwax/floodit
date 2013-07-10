@@ -9,8 +9,10 @@
     <string name="sound">Sound</string>
     <string name="palette">Farbpalette</string>
     <string name="palette_changed">Die gewählte Farbpalette wird beim Start eines neuen Spiels aktiv.</string>
-    <string name="win">"Gratuliere. Du hast %1$.2f Sekunden für %2$d Züge benötigt."</string>
+    <string name="ok">"OK"</string>
     <string name="android">Android</string>
     <string name="classic">Klassisch</string>
+    <string name="congratulations">Gratulation</string>
+    <string name="win"><![CDATA[Züge benötigt: %2$d<br/>Zeit benötigt: %1$.2f Sekunden]]></string>
 
 </resources>

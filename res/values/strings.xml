@@ -9,8 +9,10 @@
     <string name="sound">Sound</string>
     <string name="palette">Color palette</string>
     <string name="palette_changed">The selected color palette will be active as soon as you restart the game.</string>
-    <string name="win">"Congratulations. You needed %1$.2f seconds for %2$d turns."</string>
+    <string name="ok">"OK"</string>
     <string name="android">Android</string>
     <string name="classic">Classic</string>
+    <string name="congratulations">Congratulations</string>
+    <string name="win"><![CDATA[Turns needed: %2$d<br/>Time needed: %1$.2f seconds]]></string>
 
 </resources>
