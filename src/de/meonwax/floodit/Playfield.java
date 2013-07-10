@@ -20,7 +20,7 @@ public class Playfield extends View {
 		for( int row = 0; row < grid.length; row++ ) {
 
 			for( int col = 0; col < MainActivity.GRID_SIZE; col++ ) {
-				grid[ row ][ col ] = new Square( squareSize, MainActivity.getRandomColor() );
+				grid[ row ][ col ] = new Square( squareSize, ( (MainActivity)getContext() ).getRandomColor() );
 			}
 		}
 	}
