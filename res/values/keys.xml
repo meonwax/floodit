@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_sound">pref_sound</string>
+    <string name="pref_palette">pref_palette</string>
+    <string name="pref_list_android">pref_list_android</string>
+    <string name="pref_list_classic">pref_list_classic</string>
+
+</resources>
