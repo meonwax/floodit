@@ -1,0 +1,2 @@
+- Pause chronometer on onPause - resume onResume
+- Highscore table on win
