@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
@@ -102,13 +101,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// Create the color buttons
 		for( int i = 0; i < colors.length; i++ ) {
 
-			final int color = colors[ i ];
-
-			final Button colorButton = new Button( this );
-
-			//			colorButton.setBackground( getResources().getDrawable( R.drawable.color_buttons ) );
-			colorButton.setBackgroundColor( color );
-			colorButton.setLayoutParams( new LinearLayout.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f ) );
+			final Button colorButton = new ColorButton( this, colors[ i ] );
 			colorButton.setOnClickListener( this );
 
 			buttonBox.addView( colorButton );
