@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/palette"
+        android:entries="@array/palettes_entries"
+        android:entryValues="@array/palettes_values"
+        android:key="@string/pref_palette"
+        android:title="@string/palette" />
+
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="@string/pref_sound"
